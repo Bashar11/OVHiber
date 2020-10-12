@@ -11,7 +11,7 @@ import java.util.Objects;
 public class OVChipkaart {
     @Id
     @Column(name = "kaart_nummer")
-    private int kaartnummer;
+    private Integer kaartnummer;
 
     @Column(name = "geldig_tot")
     private Date geldigheid ;
@@ -56,7 +56,7 @@ public class OVChipkaart {
         return kaartnummer;
     }
 
-    public void setKaartnummer(int kaartnummer) {
+    public void setKaartnummer(Integer kaartnummer) {
         this.kaartnummer = kaartnummer;
     }
 
@@ -116,12 +116,13 @@ public class OVChipkaart {
 
     public void addProduct(Product product){
         for(Product product1: producten){
-            if(product.getProductNr() == product.getProductNr()){
-//                throw new DuplicateException("product ", product1.getProductNr() , "Product nummer");
+            if(product1.getProductNr() == product.getProductNr()){
+                throw new DuplicateException("product ", product.getProductNr() , "Product nummer");
 
             }
-            producten.add(product);
+
         }
+        producten.add(product);
 
 
     }

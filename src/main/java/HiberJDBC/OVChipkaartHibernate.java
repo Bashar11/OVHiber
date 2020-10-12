@@ -141,20 +141,21 @@ public class OVChipkaartHibernate implements OVChipkaartDao {
     }
 
     @Override
-    public List<OVChipkaart> findByProduct(Product product) {
+    public List<OVChipkaart> findByProduct(Product product) throws DaoException {
         EntityTransaction transaction = null;
         List<OVChipkaart> result = new ArrayList<>();
 
         try{
             transaction = entityManager.getTransaction();
             transaction.begin();
-            TypedQuery<OVChipkaart> query = entityManager.createQuery("SELECT p FROM OVChipkaart p WHERE p.product = :product", OVChipkaart.class);
-            result = query.setParameter("product",product).getResultList();
+            TypedQuery<OVChipkaart> query = entityManager.createQuery("SELECT kaart FROM Product product JOIN product.kaarten kaart WHERE product.productNr = :product", OVChipkaart.class);
+            result = query.setParameter("product",product.getProductNr()).getResultList();
             transaction.commit();
         }catch (Exception e){
             if(transaction !=null && transaction.isActive()){
                 transaction.rollback();
             }
+            throw new DaoException(e);
         }
         return result;
     }

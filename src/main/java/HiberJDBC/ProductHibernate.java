@@ -92,20 +92,21 @@ public class ProductHibernate implements ProductDao {
     }
 
     @Override
-    public List<Product> findByOVChipkaart(OVChipkaart kaart) {
+    public List<Product> findByOVChipkaart(OVChipkaart kaart) throws DaoException {
         EntityTransaction transaction = null;
         List<Product> result = new ArrayList<>();
 
         try{
             transaction = entityManager.getTransaction();
             transaction.begin();
-            TypedQuery<Product> query = entityManager.createQuery("SELECT p FROM Product p WHERE p.kaart = :kaart", Product.class);
-            result = query.setParameter("kaart",kaart).getResultList();
+            TypedQuery<Product> query = entityManager.createQuery("SELECT product FROM OVChipkaart ovchipkaart JOIN ovchipkaart.producten product WHERE ovchipkaart.kaartnummer = : kaart", Product.class);
+            result = query.setParameter("kaart",kaart.getKaartnummer()).getResultList();
             transaction.commit();
         }catch (Exception e){
             if(transaction !=null && transaction.isActive()){
                 transaction.rollback();
             }
+            throw new DaoException(e);
         }
         return result;
     }

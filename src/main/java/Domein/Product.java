@@ -3,7 +3,6 @@ package Domein;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "product")
@@ -86,13 +85,15 @@ public class Product {
     }
 
     public void addKaart(OVChipkaart ov){
-        for(OVChipkaart kaart : kaarten){
-            if(kaart.getKaartnummer() == ov.getKaartnummer()){
-//                throw new DuplicateException("Ov-kaart", kaart.getKaartnummer(),"Kaart nummer.");
+        for(OVChipkaart ov1: kaarten){
+            if(ov.getKaartnummer() == ov1.getKaartnummer()){
+                throw new DuplicateException("Ov-kaart", ov.getKaartnummer(),"Kaart nummer.");
             }
-        }
 
+        }
         kaarten.add(ov);
+
+
     }
     public void deleteKaart(OVChipkaart ov){
         OVChipkaart ovChipkaart = kaarten.stream().filter(e->e.getKaartnummer()==ov.getKaartnummer()).findFirst().orElse(null);

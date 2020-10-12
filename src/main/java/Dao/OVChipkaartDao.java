@@ -14,5 +14,5 @@ public interface OVChipkaartDao {
     public boolean delete(OVChipkaart ovkaart) throws DaoException;
     public List<OVChipkaart>findAll();
     public OVChipkaart findByKaartNr(int nr) throws DaoException;
-    public List<OVChipkaart> findByProduct(Product product);
+    public List<OVChipkaart> findByProduct(Product product) throws DaoException;
 }
