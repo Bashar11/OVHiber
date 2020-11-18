@@ -48,39 +48,55 @@ public class Main {
         return factory.openSession();
     }
 
+    static Reiziger reiziger = new Reiziger(15,"l","van","karl",Date.valueOf("1998-01-01"));
+    static Reiziger reiziger1 = new Reiziger(18,"s","vaa","kal",Date.valueOf("1998-01-01"));
+
+    static Adres adres = new Adres(13,"1333AA","Bergstratt","12","Almere",reiziger);
+
+    static OVChipkaart ovChipkaart = new OVChipkaart(43232,Date.valueOf("2023-01-01"),2,30.0,reiziger);
+
+
+
+
+
     public static void main(String[] args) throws SQLException, DaoException {
         ReizigerHibernate rdao = new ReizigerHibernate(getSession());
         AdresHibernate adao = new AdresHibernate(getSession());
         OVChipkaartHibernate ovdao = new OVChipkaartHibernate(getSession());
         ProductHibernate pdao = new ProductHibernate(getSession());
 //        testFetchAll();
-//        testReizigerDAO(rdao);
+        testReizigerDAO(rdao);
         testAdresDao(adao,rdao);
         testOV(ovdao,rdao);
         tesProd(pdao,ovdao,rdao);
+
+        rdao.delete(reiziger);
+
+        adao.delete(adres);
+        ovdao.delete(ovChipkaart);
+
     }
 
 
 
 
     private static void testReizigerDAO(ReizigerHibernate rdao) throws SQLException, DaoException {
-//        List<Reiziger>reizigers = rdao.findAll();
-//        for (Reiziger reiziger: reizigers)
-//            System.out.println(reiziger);
+        rdao.delete(reiziger);
+        List<Reiziger>reizigers = rdao.findAll();
+        for (Reiziger reiziger: reizigers)
+            System.out.println(reiziger);
 
-//        Reiziger reiziger = new Reiziger(7,"l","van","karl",Date.valueOf("1998-01-01"));
-//        Reiziger reiziger1 = new Reiziger(19,"s","vaa","kal",Date.valueOf("1998-01-01"));
-////        rdao.save(reiziger1);
-//        //        rdao.save(reiziger);
-//        rdao.delete(reiziger1);
-//        reiziger.setNaam("Barr");
-//        rdao.update(reiziger);
+//        Reiziger reiziger = new Reiziger(15,"l","van","karl",Date.valueOf("1998-01-01"));
 
-//        Reiziger r = rdao.findById(1);
-//        System.out.println(r);
-//
-//        List<Reiziger>result = rdao.findByGbDatum("2002-12-03");
-//        System.out.println(result);
+        rdao.save(reiziger);
+        reiziger.setNaam("Barr");
+        rdao.update(reiziger);
+
+        Reiziger r = rdao.findById(1);
+        System.out.println(r);
+
+        List<Reiziger>result = rdao.findByGbDatum("2002-12-03");
+        System.out.println(result);
 
 
 
@@ -115,87 +131,88 @@ public class Main {
 //        }
 //    }
     private static void testAdresDao(AdresHibernate adao,ReizigerHibernate rdao) throws DaoException {
-        Reiziger reiziger1 = new Reiziger(19,"s","vaa","kal",Date.valueOf("1998-01-01"));
-//        rdao.save(reiziger1);
-        Adres adres = new Adres(13,"1333AA","Bergstratt","12","Almere",reiziger1);
-//        adao.save(adres);
 
-//        adres.setStraat("Bergmolenstraat");
-//        adao.update(adres);
-//        adao.delete(adres);
-//        Adres adres1 = adao.findByReiziger(reiziger1);
-//        System.out.println(adres1);
+        adao.save(adres);
 
-//        Adres adres1 = adao.findById(13);
-//        System.out.println(adres1);
-//
-//        List<Adres> adressen = adao.findAll();
-//        for(Adres adres2 : adressen){
-//            System.out.println(adres2);
-//        }
+        adres.setStraat("Bergmolenstraat");
+        adao.update(adres);
+
+        Adres adres1 = adao.findByReiziger(reiziger);
+        System.out.println(adres1);
+
+        Adres adres2 = adao.findById(13);
+        System.out.println(adres2);
+
+        adao.delete(adres);
+
+
+        List<Adres> adressen = adao.findAll();
+        for(Adres adres3 : adressen){
+            System.out.println(adres3);
+        }
 
 
 
     }
     private static void testOV(OVChipkaartHibernate ovdao, ReizigerHibernate rdao) throws DaoException {
-//        OVChipkaart ov = ovdao.findByKaartNr(35283);
-//        System.out.println(ov);
-//        List<OVChipkaart> ovChipkaarts = ovdao.findByReiziger(rdao.findById(2));
-//        for (OVChipkaart ov : ovChipkaarts){
-//            System.out.println(ov);
-//        }
-        Reiziger reiziger = new Reiziger(20,"b","aw","kado",Date.valueOf("1990-01-01"));
-//        rdao.save(reiziger);
 
-        OVChipkaart ovChipkaart = new OVChipkaart(43232,Date.valueOf("2023-01-01"),2,30.0,reiziger);
-//        ovdao.save(ovChipkaart);
+        OVChipkaart ov = ovdao.findByKaartNr(35283);
+        System.out.println(ov);
+        List<OVChipkaart> ovChipkaarts = ovdao.findByReiziger(rdao.findById(2));
+        for (OVChipkaart ov1 : ovChipkaarts){
+            System.out.println(ov1);
+        }
 
-//        ovChipkaart.setSaldo(30.31);
-//        ovdao.update(ovChipkaart);
-//
-//        OVChipkaart o = ovdao.findByKaartNr(43232);
-//        System.out.println(o);
 
-//        List<OVChipkaart> ovd = ovdao.findByReiziger(reiziger);
-//        for (OVChipkaart ovChipkaart1 : ovd){
-//            System.out.println(ovChipkaart1);
-//        }
-//        ovdao.delete(ovChipkaart);
+        ovdao.save(ovChipkaart);
+
+        ovChipkaart.setSaldo(30.31);
+        ovdao.update(ovChipkaart);
+
+        OVChipkaart o = ovdao.findByKaartNr(43232);
+        System.out.println(o);
+
+        List<OVChipkaart> ovd = ovdao.findByReiziger(reiziger);
+
+        for (OVChipkaart ovChipkaart1 : ovd){
+            System.out.println(ovChipkaart1);
+        }
+        ovdao.delete(ovChipkaart);
     }
     private static void tesProd(ProductHibernate pdao, OVChipkaartHibernate ovdao, ReizigerHibernate rdao) throws DaoException {
         Reiziger reiziger = new Reiziger(20,"b","aw","kado",Date.valueOf("1990-01-01"));
-//        rdao.save(reiziger);
+        rdao.save(reiziger);
         OVChipkaart ovChipkaart1 = new OVChipkaart(43231,Date.valueOf("2023-01-01"),1,30.0,reiziger);
-//        ovdao.save(ovChipkaart1);
+        ovdao.save(ovChipkaart1);
 
         Product product =  new Product(7,"productTest","Dir is een product test",53.0);
-//        pdao.save(product);
+        pdao.save(product);
         product.setBeschrijving("Dit is product na update ");
-//        pdao.update(product);
+        pdao.update(product);
 
-//        List<Product> res = pdao.findAll();
-//        for(Product p : res){
-//            System.out.println(p);
-//        }
-//
-//        product.addKaart(ovChipkaart1);
-//        ovChipkaart1.addProduct(product);
-//        pdao.update(product);
-//        ovdao.update(ovChipkaart1);
-//
-//        Product p = pdao.findByNr(7);
-//        System.out.println(p);
-//        List<OVChipkaart> pr = ovdao.findByProduct(product);
-//        for(OVChipkaart p : pr){
-//            System.out.println(p);
-//        }
-//
-//        List<Product> ovf = pdao.findByOVChipkaart(ovChipkaart1);
-//        for(Product o : ovf){
-//            System.out.println(o);
-//        }
-//
-//        pdao.delete(product);
+        List<Product> res = pdao.findAll();
+        for(Product p : res){
+            System.out.println(p);
+        }
+
+        product.addKaart(ovChipkaart1);
+        ovChipkaart1.addProduct(product);
+        pdao.update(product);
+        ovdao.update(ovChipkaart1);
+
+        Product p = pdao.findByNr(7);
+        System.out.println(p);
+        List<OVChipkaart> pr = ovdao.findByProduct(product);
+        for(OVChipkaart p1 : pr){
+            System.out.println(p1);
+        }
+
+        List<Product> ovf = pdao.findByOVChipkaart(ovChipkaart1);
+        for(Product o : ovf){
+            System.out.println(o);
+        }
+
+        pdao.delete(product);
 
 
 
